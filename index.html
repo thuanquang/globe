@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Shakeable Snow Globe</title>
+  <title>QuaCauTuyet</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="style.css">
 </head>
@@ -26,38 +26,27 @@
       <div class="menu-panel" id="menuPanel">
         <div class="panel-grid">
           <div class="panel-row">
-            <label for="chaos">Calm ↔ Chaos</label>
+            <label for="chaos">Lắc nhẹ ↔ Lắc mạnh</label>
             <input id="chaos" type="range" min="0.5" max="3.5" step="0.1" value="1.6" aria-label="Calm to Chaos strength">
           </div>
+        <div class="panel-row">
+          <label for="themeSelect">Màu nền</label>
+          <select id="themeSelect" aria-label="Choose a scene preset">
+            <option value="calm|sky">Calm · Sky Cyan</option>
+            <option value="hearth|apricot">Quả mơ ngọt ngào</option>
+            <option value="aurora|lilac">Tử đinh hương quý phái</option>
+            <option value="midnight|mint">Bạc hà the mát</option>
+          </select>
+        </div>
           <div class="panel-row">
-            <label for="moodSelect">Mood preset</label>
-            <select id="moodSelect" aria-label="Choose a mood">
-              <option value="calm">Calm</option>
-              <option value="hearth">Cozy Hearth</option>
-              <option value="aurora">Aurora</option>
-              <option value="midnight">Midnight</option>
-              <option value="blustery">Blustery</option>
-            </select>
-          </div>
-          <div class="panel-row">
-            <label for="backdropSelect">Backdrop</label>
-            <select id="backdropSelect" aria-label="Choose a backdrop">
-              <option value="sky">Sky Cyan</option>
-              <option value="blush">Blush Pink</option>
-              <option value="mint">Mint</option>
-              <option value="lilac">Lilac</option>
-              <option value="apricot">Apricot</option>
-            </select>
-          </div>
-          <div class="panel-row">
-            <label for="figureSelect">Inside</label>
+            <label for="figureSelect">Vật nhét trong</label>
             <select id="figureSelect" aria-label="Choose inside figure">
-              <option value="snowman">Snowman</option>
-              <option value="penguin">Penguin</option>
-              <option value="tree">Evergreen</option>
-              <option value="gift">Gift</option>
-              <option value="fox">Fox</option>
-              <option value="cabin">Cabin</option>
+              <option value="snowman">Người tuyết</option>
+              <option value="penguin">Chim cánh cụt</option>
+              <option value="tree">Cây thông</option>
+              <option value="gift">Hộp quà</option>
+               <option value="nick">Nick</option>
+               <option value="judy">Judy</option>
             </select>
           </div>
           <div class="panel-inline">
@@ -65,8 +54,8 @@
             <span id="motionNote" class="small">Device motion auto-enables after a tap.</span>
           </div>
           <div class="panel-actions">
-            <button id="shakeBtn" aria-label="Shake the globe">Shake</button>
-            <button id="resetBtn" aria-label="Reset to calm">Reset to Calm</button>
+            <button id="shakeBtn" aria-label="Shake the globe">Lắc</button>
+            <button id="resetBtn" aria-label="Reset to calm">Bình tĩnh lại</button>
           </div>
         </div>
       </div>
@@ -87,9 +76,9 @@
       <div class="shadow"></div>
       <div class="base"></div>
     </div>
-    <div class="note" aria-label="Controls hint">
+    <!-- <div class="note" aria-label="Controls hint">
       Bấm dô cục đó hay lắc điện thoại i.
-    </div>
+    </div> -->
   </div>
 
   <script src="main.js"></script>

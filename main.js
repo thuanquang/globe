@@ -14,6 +14,7 @@
   const motionNote = document.getElementById('motionNote');
   const moodSelect = document.getElementById('moodSelect');
   const backdropSelect = document.getElementById('backdropSelect');
+  const themeSelect = document.getElementById('themeSelect');
   const figureSelect = document.getElementById('figureSelect');
   const glowlineEl = document.getElementById('glowline');
   const menuDock = document.getElementById('menuDock');
@@ -116,41 +117,55 @@
       <path d="M100 90 C90 70 72 70 70 90" stroke="#ffd166" stroke-width="8" fill="none" stroke-linecap="round"/>
       <path d="M100 90 C110 70 128 70 130 90" stroke="#ffd166" stroke-width="8" fill="none" stroke-linecap="round"/>
     </svg>`,
-    fox: `
-    <svg viewBox="0 0 200 200" role="img" aria-label="Fox">
-      <ellipse cx="100" cy="165" rx="60" ry="16" fill="rgba(0,0,0,0.12)"/>
-      <path d="M70 120 Q60 100 72 88 L88 98" fill="#f6a93a"/>
-      <path d="M130 120 Q140 100 128 88 L112 98" fill="#f6a93a"/>
-      <circle cx="100" cy="120" r="34" fill="#f6a93a"/>
-      <path d="M76 122 Q100 100 124 122 Q110 150 90 150 Z" fill="#fff" opacity="0.9"/>
+    nick: `
+    <svg viewBox="0 0 200 200" role="img" aria-label="Nick">
+      <ellipse cx="100" cy="170" rx="60" ry="16" fill="rgba(0,0,0,0.12)"/>
+      <path d="M70 120 Q60 100 72 88 L88 98" fill="#f08a3e"/>
+      <path d="M130 120 Q140 100 128 88 L112 98" fill="#f08a3e"/>
+      <circle cx="100" cy="120" r="34" fill="#f08a3e"/>
+      <path d="M76 122 Q100 100 124 122 Q110 150 90 150 Z" fill="#fff1d8" opacity="0.95"/>
       <circle cx="90" cy="118" r="4" fill="#2c2c2c"/>
       <circle cx="110" cy="118" r="4" fill="#2c2c2c"/>
       <path d="M96 132 Q100 136 104 132" stroke="#2c2c2c" stroke-width="3" fill="none" stroke-linecap="round"/>
-      <path d="M70 118 Q60 120 56 114" stroke="#f6a93a" stroke-width="6" fill="none" stroke-linecap="round"/>
-      <path d="M130 118 Q140 120 144 114" stroke="#f6a93a" stroke-width="6" fill="none" stroke-linecap="round"/>
+      <path d="M70 118 Q60 120 56 114" stroke="#f08a3e" stroke-width="6" fill="none" stroke-linecap="round"/>
+      <path d="M130 118 Q140 120 144 114" stroke="#f08a3e" stroke-width="6" fill="none" stroke-linecap="round"/>
+      <path d="M78 134 Q80 126 86 124" stroke="#2c2c2c" stroke-width="2" fill="none" stroke-linecap="round"/>
+      <path d="M122 134 Q120 126 114 124" stroke="#2c2c2c" stroke-width="2" fill="none" stroke-linecap="round"/>
     </svg>`,
-    cabin: `
-    <svg viewBox="0 0 200 200" role="img" aria-label="Cabin">
+    judy: `
+    <svg viewBox="0 0 200 200" role="img" aria-label="Judy">
       <ellipse cx="100" cy="170" rx="60" ry="16" fill="rgba(0,0,0,0.12)"/>
-      <rect x="62" y="104" width="76" height="50" rx="4" fill="#b0713a"/>
-      <rect x="92" y="122" width="18" height="32" rx="2" fill="#6d3f1e"/>
-      <rect x="72" y="116" width="14" height="12" rx="2" fill="#f6f0d8"/>
-      <rect x="116" y="116" width="14" height="12" rx="2" fill="#f6f0d8"/>
-      <polygon points="50,110 100,70 150,110" fill="#8b4f24"/>
-      <rect x="98" y="84" width="6" height="22" fill="#f6f0d8"/>
-      <circle cx="99" cy="138" r="2" fill="#f6f0d8"/>
-      <rect x="136" y="96" width="6" height="26" fill="#4d2a14"/>
-      <rect x="138" y="90" width="8" height="8" fill="#4d2a14"/>
+      <ellipse cx="82" cy="72" rx="12" ry="32" fill="#d0d7e6"/>
+      <ellipse cx="118" cy="72" rx="12" ry="32" fill="#d0d7e6"/>
+      <circle cx="100" cy="122" r="34" fill="#dfe6f5"/>
+      <path d="M80 122 Q100 110 120 122 Q110 148 90 148 Z" fill="#fefefe" opacity="0.95"/>
+      <circle cx="90" cy="118" r="4" fill="#2c2c2c"/>
+      <circle cx="110" cy="118" r="4" fill="#2c2c2c"/>
+      <path d="M96 132 Q100 136 104 132" stroke="#2c2c2c" stroke-width="3" fill="none" stroke-linecap="round"/>
+      <path d="M76 124 Q70 126 66 120" stroke="#d0d7e6" stroke-width="6" fill="none" stroke-linecap="round"/>
+      <path d="M124 124 Q130 126 134 120" stroke="#d0d7e6" stroke-width="6" fill="none" stroke-linecap="round"/>
+      <path d="M86 92 Q100 100 114 92" stroke="#b0b7c8" stroke-width="8" fill="none" stroke-linecap="round"/>
     </svg>`
   };
   // Simple Jingle Bells melody (one click advances one note; loops after end)
+  // Full chorus+tag of Jingle Bells; loop only after final note
   const jbNotes = [
-    { f: 659, d: 0.26 }, { f: 659, d: 0.26 }, { f: 659, d: 0.26 }, // E E E
-    { f: 659, d: 0.26 }, { f: 659, d: 0.26 }, { f: 659, d: 0.26 }, // E E E
-    { f: 659, d: 0.26 }, { f: 783, d: 0.26 }, { f: 523, d: 0.26 }, { f: 587, d: 0.26 }, { f: 659, d: 0.32 }, // E G C D E
-    { f: 698, d: 0.26 }, { f: 698, d: 0.26 }, { f: 698, d: 0.26 }, { f: 698, d: 0.26 }, // F F F F
-    { f: 698, d: 0.26 }, { f: 659, d: 0.26 }, { f: 659, d: 0.26 }, { f: 659, d: 0.26 }, { f: 659, d: 0.32 }, // F E E E E
-    { f: 587, d: 0.26 }, { f: 587, d: 0.26 }, { f: 659, d: 0.26 }, { f: 587, d: 0.26 }, { f: 783, d: 0.36 }, // D D E D G
+    // Jingle bells, jingle bells, jingle all the way
+    { f: 659, d: 0.26 }, { f: 659, d: 0.26 }, { f: 659, d: 0.26 },
+    { f: 659, d: 0.26 }, { f: 659, d: 0.26 }, { f: 659, d: 0.26 },
+    { f: 659, d: 0.26 }, { f: 783, d: 0.26 }, { f: 523, d: 0.26 }, { f: 587, d: 0.26 }, { f: 659, d: 0.32 },
+    // Oh what fun it is to ride in a one-horse open sleigh
+    { f: 698, d: 0.26 }, { f: 698, d: 0.26 }, { f: 698, d: 0.26 }, { f: 698, d: 0.26 },
+    { f: 698, d: 0.26 }, { f: 659, d: 0.26 }, { f: 659, d: 0.26 }, { f: 659, d: 0.26 }, { f: 659, d: 0.32 },
+    { f: 587, d: 0.26 }, { f: 587, d: 0.26 }, { f: 659, d: 0.26 }, { f: 587, d: 0.26 }, { f: 783, d: 0.36 },
+    // Tag: Jingle bells, jingle bells, jingle all the way
+    { f: 659, d: 0.26 }, { f: 659, d: 0.26 }, { f: 659, d: 0.26 },
+    { f: 659, d: 0.26 }, { f: 659, d: 0.26 }, { f: 659, d: 0.26 },
+    { f: 659, d: 0.26 }, { f: 783, d: 0.26 }, { f: 523, d: 0.26 }, { f: 587, d: 0.26 }, { f: 659, d: 0.32 },
+    // Ending: Oh what fun it is to ride
+    { f: 698, d: 0.26 }, { f: 698, d: 0.26 }, { f: 698, d: 0.26 }, { f: 698, d: 0.26 },
+    { f: 698, d: 0.26 }, { f: 659, d: 0.26 }, { f: 659, d: 0.26 }, { f: 659, d: 0.26 }, { f: 659, d: 0.32 },
+    { f: 783, d: 0.28 }, { f: 783, d: 0.28 }, { f: 698, d: 0.28 }, { f: 587, d: 0.28 }, { f: 523, d: 0.42 }
   ];
   let jbIndex = 0;
 
@@ -530,7 +545,8 @@
       if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
       if (audioCtx.state === 'suspended') audioCtx.resume();
       const note = jbNotes[jbIndex];
-      jbIndex = (jbIndex + 1) % jbNotes.length;
+      jbIndex = jbIndex + 1;
+      if (jbIndex >= jbNotes.length) jbIndex = 0; // only loop after full song
       if (!note || !note.f) return;
       const t = audioCtx.currentTime;
       const osc = audioCtx.createOscillator();
@@ -651,8 +667,17 @@
     const soundBtn = document.querySelector('[data-action="sound"]');
     if (soundBtn) soundBtn.classList.toggle('muted', !soundToggle.checked);
   });
-  moodSelect.addEventListener('change', e => applyMood(e.target.value));
-  backdropSelect.addEventListener('change', e => applyBackdrop(e.target.value));
+  if (moodSelect) moodSelect.addEventListener('change', e => applyMood(e.target.value));
+  if (backdropSelect) backdropSelect.addEventListener('change', e => applyBackdrop(e.target.value));
+  if (themeSelect) {
+    themeSelect.addEventListener('change', e => {
+      const [m, b] = (e.target.value || 'calm|sky').split('|');
+      if (moodSelect) moodSelect.value = m;
+      if (backdropSelect) backdropSelect.value = b;
+      applyMood(m);
+      applyBackdrop(b);
+    });
+  }
 
   function setFigure(name) {
     const svg = figures[name] || figures.snowman;
@@ -749,6 +774,7 @@
   initFlakes();
   applyMood('calm');
   applyBackdrop('sky');
+  if (themeSelect) themeSelect.value = 'calm|sky';
   setFigure('snowman');
   const soundBtn = document.querySelector('[data-action="sound"]');
   if (soundBtn) soundBtn.classList.toggle('muted', !soundToggle.checked);

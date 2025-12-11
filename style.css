@@ -75,7 +75,7 @@ body::after {
   box-shadow: 0 12px 40px rgba(0,0,0,0.12);
   border: 1px solid rgba(0,0,0,0.08);
   backdrop-filter: blur(8px);
-  margin-top: 18px;
+  margin-top: 32px;
   margin-bottom: 30px;
 }
 .globe-wrap {
@@ -228,7 +228,7 @@ body::after {
   background: repeating-linear-gradient(
     90deg,
     rgba(255,255,255,0.16),
-    rgba(255,255,255,0.16) 2px,
+    rgba(255, 255, 255, 0.877) 2px,
     rgba(0,0,0,0.12) 2px,
     rgba(0,0,0,0.12) 6px
   );
@@ -297,12 +297,16 @@ select {
   flex: 1;
   background: var(--ui);
   border: 1px solid var(--ui-strong);
-  color: var(--text);
+  color: #1b2738;
   padding: 8px 10px;
   border-radius: 10px;
   font-size: 0.95rem;
   font-weight: 600;
   backdrop-filter: blur(8px);
+}
+select option {
+  color: #10243a;
+  background: #f5f7fb;
 }
 .toggle {
   display: inline-flex;
