@@ -143,6 +143,16 @@
       <rect x="138" y="90" width="8" height="8" fill="#4d2a14"/>
     </svg>`
   };
+  // Simple Jingle Bells melody (one click advances one note; loops after end)
+  const jbNotes = [
+    { f: 659, d: 0.26 }, { f: 659, d: 0.26 }, { f: 659, d: 0.26 }, // E E E
+    { f: 659, d: 0.26 }, { f: 659, d: 0.26 }, { f: 659, d: 0.26 }, // E E E
+    { f: 659, d: 0.26 }, { f: 783, d: 0.26 }, { f: 523, d: 0.26 }, { f: 587, d: 0.26 }, { f: 659, d: 0.32 }, // E G C D E
+    { f: 698, d: 0.26 }, { f: 698, d: 0.26 }, { f: 698, d: 0.26 }, { f: 698, d: 0.26 }, // F F F F
+    { f: 698, d: 0.26 }, { f: 659, d: 0.26 }, { f: 659, d: 0.26 }, { f: 659, d: 0.26 }, { f: 659, d: 0.32 }, // F E E E E
+    { f: 587, d: 0.26 }, { f: 587, d: 0.26 }, { f: 659, d: 0.26 }, { f: 587, d: 0.26 }, { f: 783, d: 0.36 }, // D D E D G
+  ];
+  let jbIndex = 0;
 
   /* Utility */
   const rand = (min, max) => Math.random() * (max - min) + min;
@@ -193,11 +203,12 @@
     const vx = (window.innerWidth / 2) - cx;
     const vy = (window.innerHeight / 2) - cy;
     const centerAngle = Math.atan2(vy, vx);
-    const spread = Math.PI * 0.9;
-    const radius = 115;
+    const spread = Math.PI * 0.55; // tighter spread to avoid out-of-bounds on mobile
+    const radius = 108;
     const total = menuItems.length;
     menuItems.forEach((item, i) => {
-      const angle = centerAngle - spread / 2 + (spread / Math.max(1, total - 1)) * i;
+      const baseAngle = centerAngle - spread / 2 + (spread / Math.max(1, total - 1)) * i;
+      const angle = Math.max(-0.05 * Math.PI, Math.min(0.9 * Math.PI, baseAngle));
       const dx = Math.cos(angle) * radius;
       const dy = Math.sin(angle) * radius;
       item.style.setProperty('--dx', `${dx}px`);
@@ -407,10 +418,10 @@
   }
 
   function setStatus(text) {
-    statusEl.textContent = text;
+    if (statusEl) statusEl.textContent = text;
   }
   function setTicker(text) {
-    tickerEl.textContent = text;
+    if (tickerEl) tickerEl.textContent = text;
   }
 
   function vibrate() {
@@ -513,6 +524,30 @@
     };
   }
 
+  function playJingleStep() {
+    if (!soundToggle.checked) return;
+    try {
+      if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+      if (audioCtx.state === 'suspended') audioCtx.resume();
+      const note = jbNotes[jbIndex];
+      jbIndex = (jbIndex + 1) % jbNotes.length;
+      if (!note || !note.f) return;
+      const t = audioCtx.currentTime;
+      const osc = audioCtx.createOscillator();
+      const gain = audioCtx.createGain();
+      osc.type = 'sine';
+      osc.frequency.setValueAtTime(note.f, t);
+      const dur = note.d || 0.28;
+      gain.gain.setValueAtTime(0.12, t);
+      gain.gain.exponentialRampToValueAtTime(0.0001, t + dur);
+      osc.connect(gain).connect(audioCtx.destination);
+      osc.start(t);
+      osc.stop(t + dur);
+    } catch (e) {
+      // ignore audio errors
+    }
+  }
+
   function updateLight(pos) {
     const rect = globeEl.getBoundingClientRect();
     const cx = rect.left + rect.width / 2;
@@ -532,6 +567,7 @@
     maybeEnableMotion();
     // treat tap/click as a gentle shake
     shake(chaosSlider ? parseFloat(chaosSlider.value) : 1.2);
+    playJingleStep();
   });
 
   globeEl.addEventListener('pointermove', e => {

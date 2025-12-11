@@ -68,13 +68,15 @@ body::after {
 .note {
   text-align: center;
   font-size: 0.95rem;
-  color: #d8e5ff;
-  background: rgba(0,0,0,0.18);
+  color: #1c2738;
+  background: rgba(255,255,255,0.65);
   padding: 10px 14px;
   border-radius: 999px;
-  box-shadow: 0 12px 40px rgba(0,0,0,0.2);
-  border: 1px solid rgba(255,255,255,0.08);
+  box-shadow: 0 12px 40px rgba(0,0,0,0.12);
+  border: 1px solid rgba(0,0,0,0.08);
   backdrop-filter: blur(8px);
+  margin-top: 18px;
+  margin-bottom: 30px;
 }
 .globe-wrap {
   position: relative;
@@ -225,12 +227,12 @@ body::after {
   inset: 0;
   background: repeating-linear-gradient(
     90deg,
-    rgba(255,255,255,0.08),
-    rgba(255,255,255,0.08) 2px,
-    rgba(0,0,0,0.2) 2px,
-    rgba(0,0,0,0.2) 6px
+    rgba(255,255,255,0.16),
+    rgba(255,255,255,0.16) 2px,
+    rgba(0,0,0,0.12) 2px,
+    rgba(0,0,0,0.12) 6px
   );
-  opacity: 0.45;
+  opacity: 0.55;
   mix-blend-mode: soft-light;
 }
 .ui {
@@ -312,23 +314,14 @@ select {
   justify-content: center;
   font-weight: 700;
   letter-spacing: 0.5px;
+  display: none;
 }
 .small {
   font-size: 0.8rem;
   opacity: 0.75;
 }
 .ticker {
-  width: 100%;
-  text-align: center;
-  font-size: 0.9rem;
-  letter-spacing: 0.4px;
-  color: rgba(232,241,255,0.88);
-  background: rgba(0,0,0,0.15);
-  padding: 8px 12px;
-  border-radius: 14px;
-  border: 1px solid rgba(255,255,255,0.08);
-  backdrop-filter: blur(8px);
-  box-shadow: 0 12px 30px rgba(0,0,0,0.18);
+  display: none;
 }
 @media (max-width: 520px) {
   .ui { grid-template-columns: 1fr; }
@@ -363,13 +356,14 @@ select {
   left: 54px;
   color: #0c1020;
   text-align: center;
-  line-height: 72px;
   font-weight: 800;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 26px;
   box-shadow: var(--menu-shadow);
   transition: transform 200ms ease, background 200ms ease, box-shadow 200ms ease;
   border: 1px solid rgba(255,255,255,0.35);
-  display: grid;
-  place-items: center;
 }
 .menu-open-button {
   cursor: pointer;
