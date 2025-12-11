@@ -461,7 +461,6 @@
       f.vx += Math.cos(ang) * speed * (0.5 + f.depth * 0.6);
       f.vy += Math.sin(ang) * speed * 0.6 - s * 3.2;
     }
-    ping();
     whoosh(s);
     vibrate();
     setStatus("Shaken!");
@@ -481,25 +480,6 @@
     setTicker("Reset to calm.");
   }
 
-  /* Audio chime via Web Audio */
-  function ping() {
-    if (!soundToggle.checked) return;
-    try {
-      if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-      const t = audioCtx.currentTime;
-      const osc = audioCtx.createOscillator();
-      const gain = audioCtx.createGain();
-      osc.type = 'sine';
-      osc.frequency.setValueAtTime(880, t);
-      gain.gain.setValueAtTime(0.08, t);
-      gain.gain.exponentialRampToValueAtTime(0.0001, t + 0.5);
-      osc.connect(gain).connect(audioCtx.destination);
-      osc.start(t);
-      osc.stop(t + 0.5);
-    } catch (e) {
-      // no-op if audio fails
-    }
-  }
 
   function whoosh(strength) {
     if (!soundToggle.checked) return;
