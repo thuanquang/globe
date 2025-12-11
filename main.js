@@ -39,6 +39,8 @@
   let tilt = { x: 0, y: 0 };
   let motionForce = { x: 0, y: 0 };
   let motionEnabled = false;
+  let lastShakeMag = 0;
+  let lastShakeAt = 0;
   let trailAlpha = 0.08;
   let gustStrength = 0;
   let pileNudge = 0;
@@ -592,9 +594,23 @@
 
   /* Device motion */
   function onMotion(e) {
-    if (!e.accelerationIncludingGravity) return;
-    const ax = clamp(e.accelerationIncludingGravity.x || 0, -12, 12);
-    const ay = clamp(e.accelerationIncludingGravity.y || 0, -12, 12);
+    const acc = e.accelerationIncludingGravity;
+    if (!acc) return;
+    const ax = clamp(acc.x || 0, -18, 18);
+    const ay = clamp(acc.y || 0, -18, 18);
+    const az = clamp(acc.z || 0, -18, 18);
+    const now = performance.now();
+    const mag = Math.sqrt(ax * ax + ay * ay + az * az);
+    if (!lastShakeMag) lastShakeMag = mag;
+    const delta = Math.abs(mag - lastShakeMag);
+    // Smooth baseline so small drifts don't spam shakes
+    lastShakeMag = lerp(lastShakeMag, mag, 0.35);
+    const shakeThreshold = 6.2;
+    if (!reduceMotion && delta > shakeThreshold && now - lastShakeAt > 900) {
+      lastShakeAt = now;
+      const strength = clamp(delta / 6, 0.9, 3.2);
+      shake(strength);
+    }
     motionForce.x = ax * 0.02;
     motionForce.y = ay * 0.02;
     if (!dragging) {
@@ -709,18 +725,28 @@
         document.querySelector('[data-action="sound"]').classList.toggle('muted', !soundToggle.checked);
         break;
       case 'random':
-        const moodsKeys = Object.keys(moods);
-        const backsKeys = Object.keys(backdrops);
-        const figsKeys = Object.keys(figures);
-        const pick = arr => arr[Math.floor(Math.random() * arr.length)];
-        const m = pick(moodsKeys);
-        const b = pick(backsKeys);
-        const f = pick(figsKeys);
-        moodSelect.value = m; applyMood(m);
-        backdropSelect.value = b; applyBackdrop(b);
-        figureSelect.value = f; setFigure(f);
-        shake(2.1);
-        break;
+        {
+          const pick = arr => arr[Math.floor(Math.random() * arr.length)];
+          const themeVals = themeSelect ? Array.from(themeSelect.options).map(o => o.value) : [];
+          let m, b;
+          if (themeVals.length) {
+            const theme = pick(themeVals) || 'calm|sky';
+            [m, b] = theme.split('|');
+            themeSelect.value = `${m}|${b}`;
+          } else {
+            m = pick(Object.keys(moods));
+            b = pick(Object.keys(backdrops));
+          }
+          applyMood(m);
+          applyBackdrop(b);
+          if (moodSelect) moodSelect.value = m;
+          if (backdropSelect) backdropSelect.value = b;
+          const f = pick(Object.keys(figures));
+          if (figureSelect) figureSelect.value = f;
+          setFigure(f);
+          shake(2.1);
+          break;
+        }
     }
   }
 
